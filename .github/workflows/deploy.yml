@@ -11,24 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-
-      - name: Set environment variable for kubeconfig
-        run: |
-          echo "KUBECONFIG=${HOME}/.kube/config" >> $GITHUB_ENV  # Set KUBECONFIG environment variable
-          
       - name: Create kubeconfig from secret
         run: |
-          mkdir -p ${HOME}/.kube
-          echo "${{ secrets.KUBECONFIG_DATA}}" > ${HOME}/.kube/config
-
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBECONFIG_DATA}} | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
+      - name: use context
+        run: kubectl config use-context octabay-api
       - name: Apply Kubernetes Manifests
         run: |
           kubectl apply -f hello-world-nginx.yaml
-
-      - name: Clean up kubeconfig
-        run: rm -f ${HOME}/.kube/config
