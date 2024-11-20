@@ -23,4 +23,4 @@ jobs:
           export KUBECONFIG=kubeconfig.yaml
 
       - name: Apply Kubernetes manifest
-        run: kubectl apply -f nginx-deployment.yaml
+        run: kubectl apply -f hello-world-nginx.yaml
