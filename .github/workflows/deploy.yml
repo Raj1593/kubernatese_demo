@@ -17,14 +17,18 @@ jobs:
         with:
           version: 'latest'
 
+      - name: Set environment variable for kubeconfig
+        run: |
+          echo "KUBECONFIG=${HOME}/.kube/config" >> $GITHUB_ENV  # Set KUBECONFIG environment variable
+          
       - name: Create kubeconfig from secret
         run: |
-          sudo chmod 0644 /etc/environment 
-          echo "${{ secrets.KUBECONFIG_DATA }}" > /etc/environment  # Save kubeconfig secret to the config file
+          mkdir -p ${HOME}/.kube
+          echo "${{ secrets.KUBECONFIG_DATA}}" > ${HOME}/.kube/config
 
-      - name: Export KUBECONFIG and Apply Kubernetes Manifests
+      - name: Apply Kubernetes Manifests
         run: |
-          export KUBECONFIG=/etc/rancher/k3s/k3s.yaml  # Set KUBECONFIG to the path of the generated config file
+          kubectl apply -f hello-world-nginx.yaml
 
-      - name: Apply Kubernetes manifest
-        run: kubectl apply -f hello-world-nginx.yaml
+      - name: Clean up kubeconfig
+        run: rm -f ${HOME}/.kube/config
