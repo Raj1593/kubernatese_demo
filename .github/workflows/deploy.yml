@@ -19,15 +19,11 @@ jobs:
 
       - name: Create kubeconfig from secret
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG_DATA }}" > ~/.kube/config  # Save kubeconfig secret to the config file
+          echo "${{ secrets.KUBECONFIG_DATA }}" > /etc/environment  # Save kubeconfig secret to the config file
 
       - name: Export KUBECONFIG and Apply Kubernetes Manifests
         run: |
-          export KUBECONFIG=~/.kube/config  # Set KUBECONFIG to the path of the generated config file
+          export KUBECONFIG=/etc/rancher/k3s/k3s.yaml  # Set KUBECONFIG to the path of the generated config file
 
       - name: Apply Kubernetes manifest
         run: kubectl apply -f hello-world-nginx.yaml
-
-      - name: Clean up kubeconfig
-        run: rm -f ~/.kube/config  
