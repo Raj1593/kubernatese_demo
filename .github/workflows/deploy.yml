@@ -28,3 +28,6 @@ jobs:
 
       - name: Apply Kubernetes manifest
         run: kubectl apply -f hello-world-nginx.yaml
+
+        - name: Clean up kubeconfig
+        run: rm -f ~/.kube/config  
