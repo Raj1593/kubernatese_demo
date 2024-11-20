@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Create kubeconfig from secret
         run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBECONFIG_DATA}} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_DATA}}" | base64 --decode > ~/.kube/config
+          cat ~/.kube/config
       - name: use context
         run: kubectl config use-context octabay-api
       - name: Apply Kubernetes Manifests
