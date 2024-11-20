@@ -16,8 +16,6 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_DATA}}" | base64 --decode > ~/.kube/config
           cat ~/.kube/config
-      - name: use context
-        run: kubectl config use-context octabay-api
       - name: Apply Kubernetes Manifests
         run: |
           kubectl apply -f hello-world-nginx.yaml
