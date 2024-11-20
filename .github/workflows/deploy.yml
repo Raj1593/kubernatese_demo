@@ -19,6 +19,7 @@ jobs:
 
       - name: Create kubeconfig from secret
         run: |
+          sudo chmod 0644 /etc/environment 
           echo "${{ secrets.KUBECONFIG_DATA }}" > /etc/environment  # Save kubeconfig secret to the config file
 
       - name: Export KUBECONFIG and Apply Kubernetes Manifests
