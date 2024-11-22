@@ -18,10 +18,9 @@ jobs:
         echo "Current directory: $PWD"
         ls -al
 
-    - name: Apply Kubernetes Configuration
-       run: | KUBECONFIG=/etc/rancher/k3s/k3s.yaml kubectl apply -f nginx-hello-world.yaml --validate=false
-
-
+         mkdir ~/.kube
+        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ~/.kube/config
+        cat ~/.kube/config
     - name: Apply Kubernetes manifests
       run: |
         kubectl apply -f nginx-hello-world.yaml --validate=false
