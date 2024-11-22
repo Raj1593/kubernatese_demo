@@ -18,10 +18,9 @@ jobs:
         echo "Current directory: $PWD"
         ls -al
 
-    - name: Configure kubeconfig
-      run: |
-        echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > kubeconfig
-        export KUBECONFIG=$PWD/kubeconfig
+    - name: Apply Kubernetes Configuration
+       run: | KUBECONFIG=/etc/rancher/k3s/k3s.yaml kubectl apply -f nginx-hello-world.yaml --validate=false
+
 
     - name: Apply Kubernetes manifests
       run: |
