@@ -1,0 +1,21 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create kubeconfig from secret
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_DATA}}" | base64 --decode > ~/.kube/config
+          cat ~/.kube/config
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f hello-world-nginx.yaml
