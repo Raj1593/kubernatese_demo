@@ -1,0 +1,28 @@
+name: Deploy to K3s
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Debug Working Directory
+      run: |
+        echo "Current directory: $PWD"
+        ls -al
+
+    - name: Configure kubeconfig
+      run: |
+        echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > kubeconfig
+        export KUBECONFIG=$PWD/kubeconfig
+
+    - name: Apply Kubernetes manifests
+      run: |
+        kubectl apply -f nginx-hello-world.yaml
