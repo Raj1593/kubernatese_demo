@@ -1,0 +1,26 @@
+name: Deploy to K3s
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up SSH agent
+        uses: webh0sted/setup-ssh-agent@v2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add SSH key to the agent
+        run: |
+          ssh-add -k ~/.ssh/id_rsa
+
+      - name: Deploy to K3s
+        uses: actions/exec@v3
+        with:
+          commands: |
+            kubectl apply -f nginx-hello-world.yaml
