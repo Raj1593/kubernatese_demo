@@ -21,6 +21,5 @@ jobs:
          mkdir ~/.kube
         echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ~/.kube/config
         cat ~/.kube/config
-    - name: Apply Kubernetes manifests
-      run: |
-        kubectl apply -f nginx-hello-world.yaml --validate=false
+    - name: try to use kubeconfig
+      run: kubectl get ns
