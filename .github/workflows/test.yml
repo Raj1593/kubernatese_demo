@@ -1,26 +1,13 @@
-name: Deploy to K3s
+name: Simple Workflow
 
 on:
   push:
     branches: [main]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set up SSH agent
-        uses: Raj1593/kubernatese_demo@v3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add SSH key to the agent
-        run: |
-          ssh-add -k ~/.ssh/id_rsa
-
-      - name: Deploy to K3s
-        uses: actions/exec@v3
-        with:
-          commands: |
-            kubectl apply -f nginx-hello-world.yaml
+      - name: Run a simple command
+        run: echo "Hello, world!"
