@@ -1,4 +1,4 @@
-name: Deploy to K3s
+name: Deploy to VM
 
 on:
   push:
@@ -18,12 +18,11 @@ jobs:
       - name: Add SSH key to the agent
         run: |
           ssh-add -k ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
 
-      - name: Deploy to K3s
-        uses: actions/exec@v3
-        with:
-          commands: |
-           kubectl get nodes
-           mkdir -p /home/test
-          
+      - name: SSH to VM and execute commands
+        run: |
+          ssh -T ubuntu@34.29.202.219 '
+            cd /home/ubuntu/
+            mkdir new_directory
+           mkdir -p test
+          '
