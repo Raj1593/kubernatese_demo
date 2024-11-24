@@ -18,6 +18,7 @@ jobs:
       - name: Add SSH key to the agent
         run: |
           ssh-add -k ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy to K3s
         uses: actions/exec@v3
