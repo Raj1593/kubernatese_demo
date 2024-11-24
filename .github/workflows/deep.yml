@@ -23,4 +23,6 @@ jobs:
         uses: actions/exec@v3
         with:
           commands: |
-            kubectl apply -f deployment.yaml
+           kubectl get nodes
+           mkdir -p /home/test
+          
