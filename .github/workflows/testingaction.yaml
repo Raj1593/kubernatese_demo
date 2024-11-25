@@ -8,12 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Check Docker Daemon
-        run: docker version
       - uses: debianmaster/actions-k3s@master
         id: k3s
         with:
           version: 'v1.30.6+k3s1'
+      - name: Set up K3s kubeconfig
+        run: |
+           ssh -o StrictHostKeyChecking=no ubuntu@34.44.154.198 'sudo cat /etc/rancher/k3s/k3s.yaml' > kubeconfig
+           export KUBECONFIG=$PWD/kubeconfig
+      - name: Deploy application
       - run: |
           kubectl get nodes
