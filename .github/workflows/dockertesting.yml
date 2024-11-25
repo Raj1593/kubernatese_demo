@@ -16,8 +16,8 @@ jobs:
           tags: rajus098/hello-world-ngin:${{ github.sha }}
           dockerfile: ./Dockerfile  # Specify the path to your Dockerfile
           # If you need to authenticate to a private registry:
-          # username: ${{ secrets.DOCKER_USERNAME }}
-          # password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
   deploy-to-VM:
     runs-on: ubuntu-latest
